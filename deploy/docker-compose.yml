@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  httprelay:
+    build:
+      context: ../.
+    image: httprelay:staging
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${SUB_DOMAIN}.${DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.tls.certresolver=le"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}_compress.compress=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=${COMPOSE_PROJECT_NAME}_compress"
+
+    networks:
+      proxy:
+
+    expose:
+      - 8080
+
+networks:
+  proxy:
+    external: true

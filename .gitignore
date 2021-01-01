@@ -1,0 +1,6 @@
+.idea
+/bin/
+/public/node_modules
+/public/*.js
+/public/*.map
+/public/*.d.ts
